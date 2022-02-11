@@ -1,5 +1,6 @@
 import cv2
 import mediapipe
+import numpy as np
 
 drawingModule = mediapipe.solutions.drawing_utils
 handsModule = mediapipe.solutions.hands
@@ -19,11 +20,16 @@ with handsModule.Hands(static_image_mode=True) as hands:
                 pixelCoord = drawingModule._normalized_to_pixel_coordinates(normalizedLandmark.x,
                                                                                           normalizedLandmark.y,
                                                                                           imageWidth, imageHeight)
-                #cv2.line(image)
 
-                #print(point)
-                #print(pixelCoord)
-                #print(normalizedLandmark)
+                Ps, Pe = pixelCoord
+                Ps1 = Ps - 20
+
+                Pe1 = Ps1 + 40
+
+                startPoint = (Ps1, Pe)
+                endPoint = (Pe1, Pe)
+
+                image = cv2.line(image, startPoint, endPoint, color=(0,255,0), thickness=2)
 
     cv2.imshow('Hand', image)
 
